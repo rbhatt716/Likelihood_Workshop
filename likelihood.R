@@ -33,6 +33,11 @@ hazards = function(fname,cov_vals,cov_names,age_like,params ){
 }
 
 
+
+hazards("gompertz",c(2),cov_names = "time",age_like,params = c(-4,.5))
+
+
+
 #create Q matrix
 Q_matrix = function(p,no_qpars,Qm,covariates_name=NULL,j,no_states,dt=NULL,functions,age_like){
   ########################### Q Matrix############################################################
@@ -80,8 +85,12 @@ if(length(covariates_name)>0){   cov_vals = unlist(dt[j,..covariates_name])
   
   Q}
 
+
+
+Qs= Q_matrix(p,no_qpars=10,Qm,covariates_name="time",1,no_states=4,dt=data.table(time=0.2),functions,age_like)
+
 #create E matrix
-E_matrix = function(p,no_epars,ematrix,E_covariates_name=NULL,j,no_states,dt.E=NULL){
+E_matrix = function(p,no_epars,ematrix,j,no_states){
   all_epars = p[1:no_epars]
   e_pars_mat = matrix(all_epars,sum(ematrix>0),length(E_covariates_name)+1)
   
@@ -108,6 +117,7 @@ E_matrix = function(p,no_epars,ematrix,E_covariates_name=NULL,j,no_states,dt.E=N
   
   E}
 
+E_matrix(c(-2),no_epars=0,ematrix,1,no_states=4)
 
 
 P_matrix = function(Q_list,dt.p,j){
@@ -170,6 +180,8 @@ mat = function(O,j,death_states,censored_state,corresponding_censored_states,dta
   }
   
 }
+
+
 
 # create probability of transitioning or all observed states and times, t
 mats = function(O,death_states,censored_state,corresponding_censored_states,dta.i,no_states,Q_list,E_list,P_list){
