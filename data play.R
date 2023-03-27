@@ -11,14 +11,14 @@ library(RCurl)
 
 data7=read.csv("https://raw.githubusercontent.com/rbhatt716/Likelihood_Workshop/main/CAV_RB.csv")
 statetable.msm(state,id,data7)
-
+data7$age = data7$time
 
 qmatrix = rbind(c(0,0.13,0,0.61), c(0,0,0.66,0.61), c(0,0,0,0.61), c(0,0,0,0))
 ematrix = rbind(c(0,0,0,0), c(0,0,0,0), c(0,0,0,0), c(0,0,0,0))
 
 
 maxit       <- 10000
-fnscale     <- length(unique(data7$PTNUM))*10
+fnscale     <- length(unique(data7$id))*10
 method      <- "Nelder-Mead" #"BFGS" #Nelder-Mead"
 center      <- FALSE
 reltol      <- 1e-8
@@ -60,7 +60,7 @@ E_covariates = list(NULL)
 ematrix = rbind(c(0,0,0,0), c(0,0,0,0), c(0,0,0,0), c(0,0,0,0))
 dta = data7
 
-dta = dta %>% select(id = PTNUM,age,state,time)
+dta = dta %>% select(id,age,state,time)
 
 
 
